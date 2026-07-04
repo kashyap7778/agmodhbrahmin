@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>વસ્તી પત્રક — શ્રી મચ્છુકાંઠિયા ચાતુર્વેદી મોઢ બ્રાહ્મણ જ્ઞાતિ મંડળ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16306b;          /* navy seal ink */
+    --ink-soft:#2c4a8a;
+    --paper:#fbfaf4;        /* warm form paper */
+    --card:#ffffff;
+    --line:#d9d2c0;         /* hairline rule */
+    --accent:#d9881e;       /* marigold */
+    --accent-soft:#f6ead1;
+    --text:#262420;
+    --muted:#7a7468;
+    --danger:#9a3320;
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 12% -5%, rgba(22,48,107,.06), transparent 40%),
+      var(--paper);
+    color:var(--text);
+    font-family:"Noto Sans Gujarati",system-ui,sans-serif;
+    line-height:1.5;
+    padding:18px 12px 60px;
+  }
+  .sheet{
+    max-width:820px;margin:0 auto;background:var(--card);
+    border:2px solid var(--ink);
+    box-shadow:0 1px 0 var(--ink) inset, 0 14px 40px rgba(22,48,107,.10);
+    border-radius:4px;
+    overflow:hidden;
+  }
+
+  /* ---------- letterhead ---------- */
+  header.letterhead{
+    text-align:center;padding:22px 18px 16px;
+    border-bottom:3px double var(--ink);
+    position:relative;
+  }
+  .seals{position:absolute;inset:0;pointer-events:none}
+  .seal{
+    position:absolute;top:18px;width:56px;height:56px;border-radius:50%;
+    border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;
+    font-family:"Noto Serif Gujarati",serif;font-weight:700;color:var(--ink);
+    font-size:11px;text-align:center;line-height:1.05;
+    box-shadow:0 0 0 3px var(--card),0 0 0 4px var(--ink);
+    opacity:.9;
+  }
+  .seal.left{left:16px}
+  .seal.right{right:16px}
+  .letterhead h1{
+    font-family:"Noto Serif Gujarati",serif;font-weight:700;color:var(--ink);
+    font-size:clamp(18px,4.6vw,27px);margin:0 0 4px;letter-spacing:.2px;
+    padding:0 56px;
+  }
+  .letterhead .addr{font-size:13px;color:var(--ink-soft);margin:0}
+  .letterhead .doctype{
+    display:inline-block;margin-top:10px;font-family:"Noto Serif Gujarati",serif;
+    font-weight:600;color:var(--accent);letter-spacing:3px;font-size:13px;
+    border-top:1px solid var(--accent);border-bottom:1px solid var(--accent);
+    padding:3px 14px;
+  }
+
+  /* ---------- sections ---------- */
+  section{padding:18px 18px 4px}
+  .section-title{
+    font-family:"Noto Serif Gujarati",serif;font-weight:600;color:var(--ink);
+    font-size:15px;margin:0 0 14px;display:flex;align-items:center;gap:10px;
+  }
+  .section-title::before{
+    content:"";width:8px;height:8px;background:var(--accent);transform:rotate(45deg);
+    flex:none;
+  }
+  .section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .grid{display:grid;gap:14px 16px;grid-template-columns:repeat(2,1fr)}
+  .field{display:flex;flex-direction:column;gap:4px}
+  .field.full{grid-column:1/-1}
+  label{font-weight:600;font-size:13px;color:var(--ink)}
+  label .en{font-weight:400;color:var(--muted);font-size:11px}
+  input,select,textarea{
+    font-family:inherit;font-size:15px;color:var(--text);
+    background:#fff;border:1px solid var(--line);border-radius:8px;
+    padding:9px 11px;width:100%;transition:border-color .15s,box-shadow .15s;
+  }
+  textarea{resize:vertical;min-height:46px}
+  input:focus,select:focus,textarea:focus{
+    outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(22,48,107,.12);
+  }
+  .three{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}
+
+  /* ---------- family members ---------- */
+  #members{display:flex;flex-direction:column;gap:16px;padding-top:4px}
+  .member{
+    border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf8;
+    padding:14px 14px 6px;position:relative;
+  }
+  .member-head{
+    display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  }
+  .badge{
+    flex:none;width:30px;height:30px;border-radius:50%;background:var(--ink);
+    color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-family:"Noto Serif Gujarati",serif;
+  }
+  .member-head .who{font-weight:600;color:var(--ink);font-size:14px}
+  .remove{
+    margin-left:auto;background:none;border:1px solid var(--line);color:var(--danger);
+    border-radius:7px;padding:5px 10px;font-family:inherit;font-size:12px;cursor:pointer;
+    font-weight:600;
+  }
+  .remove:hover{background:#fbeeea;border-color:var(--danger)}
+  .m-grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+  .m-grid .full{grid-column:1/-1}
+
+  .add-btn{
+    margin:14px 0 4px;width:100%;padding:12px;border:1.5px dashed var(--ink);
+    background:rgba(22,48,107,.04);color:var(--ink);font-weight:700;font-family:inherit;
+    font-size:15px;border-radius:var(--radius);cursor:pointer;
+  }
+  .add-btn:hover{background:rgba(22,48,107,.09)}
+
+  /* ---------- footer note ---------- */
+  .note{
+    margin:8px 18px 0;padding:14px 16px;background:var(--accent-soft);
+    border-left:4px solid var(--accent);border-radius:6px;font-size:13px;color:#5b4a22;
+  }
+  .contacts{padding:14px 18px 20px;font-size:12.5px;color:var(--ink-soft);line-height:1.7}
+  .contacts b{color:var(--ink)}
+
+  /* ---------- action bar ---------- */
+  .actions{
+    position:sticky;bottom:0;z-index:5;max-width:820px;margin:14px auto 0;
+    display:flex;gap:10px;flex-wrap:wrap;padding:12px;background:rgba(251,250,244,.92);
+    backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:14px;
+  }
+  .actions button{
+    flex:1 1 140px;padding:12px 14px;border-radius:10px;font-family:inherit;
+    font-weight:700;font-size:15px;cursor:pointer;border:1px solid var(--ink);
+  }
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:#0f244f}
+  .btn-ghost{background:#fff;color:var(--ink)}
+  .btn-ghost:hover{background:rgba(22,48,107,.06)}
+  .toast{
+    position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:11px 18px;border-radius:30px;font-size:14px;
+    font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:20;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .settings{
+    max-width:820px;margin:10px auto 0;padding:16px;background:#fff;
+    border:1px solid var(--line);border-radius:14px;
+  }
+  .settings label{display:block;margin-bottom:6px}
+  .settings .hint{font-size:12px;color:var(--muted);font-weight:400;margin:6px 0 0}
+  .settings-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+  .settings-actions button{padding:9px 16px;border-radius:9px;font-family:inherit;font-weight:700;cursor:pointer;border:1px solid var(--ink)}
+
+  @media (max-width:560px){
+    .grid,.three,.m-grid{grid-template-columns:1fr}
+    .letterhead h1{padding:0 8px;font-size:19px}
+    .seal{display:none}
+  }
+  @media print{
+    body{background:#fff;padding:0}
+    .sheet{border:1.5px solid var(--ink);box-shadow:none;max-width:none}
+    .actions,.add-btn,.remove,.toast{display:none!important}
+    .member{break-inside:avoid}
+    input,select,textarea{border-color:#bbb}
+  }
+
+  /* ---- access gate ---- */
+  body.locked .sheet, body.locked .actions{display:none}
+  .gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 0,rgba(22,48,107,.12),var(--paper));padding:20px}
+  .gate-card{width:100%;max-width:400px;background:#fff;border:2px solid var(--ink);border-radius:14px;
+    padding:26px 22px;text-align:center;box-shadow:0 14px 40px rgba(22,48,107,.18)}
+  .gate-card h2{font-family:"Noto Serif Gujarati",serif;color:var(--ink);margin:0 0 6px;font-size:18px;line-height:1.3}
+  .gate-card p{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .gate-card input{text-align:center;font-size:18px;letter-spacing:1px;margin-bottom:12px}
+  .gate-card button{width:100%;padding:12px;border-radius:10px;border:1px solid var(--ink);
+    background:var(--ink);color:#fff;font-family:inherit;font-weight:700;font-size:16px;cursor:pointer}
+  .gate-card button:hover{background:#0f244f}
+  .gate-err{color:var(--danger);font-size:13px;min-height:18px;margin-top:10px;font-weight:600}
+</style>
+</head>
+<body class="locked">
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <h2>શ્રી મચ્છુકાંઠિયા ચાતુર્વેદી મોઢ બ્રાહ્મણ જ્ઞાતિ મંડળ</h2>
+      <p>વસ્તી પત્રક ભરવા આપનો સભ્ય એક્સેસ કોડ દાખલ કરો<br><span class="en">Enter your member access code</span></p>
+      <input id="gateCode" placeholder="કોડ / Code" autocomplete="off">
+      <button id="gateBtn">પ્રવેશ કરો</button>
+      <div class="gate-err" id="gateErr"></div>
+    </div>
+  </div>
+
+  <form class="sheet" id="form" autocomplete="off">
+    <header class="letterhead">
+      <div class="seals">
+        <div class="seal left">જ્ઞાતિ<br>મંડળ</div>
+        <div class="seal right">જ્ઞાતિ<br>મંડળ</div>
+      </div>
+      <h1>શ્રી મચ્છુકાંઠિયા ચાતુર્વેદી મોઢ બ્રાહ્મણ જ્ઞાતિ મંડળ, અમદાવાદ – ગાંધીનગર</h1>
+      <p class="addr">C/o ૪, જય ગાયત્રી સોસાયટી, વાસણા, અમદાવાદ – ૩૮૦૦૦૭ &nbsp;•&nbsp; મોબાઈલ નં : ૯૦૯૯૯ ૪૦૯૧૯</p>
+      <span class="doctype">વસ્તી પત્રક</span>
+    </header>
+
+    <!-- HOUSEHOLD HEAD -->
+    <section>
+      <h2 class="section-title">કુટુંબના વડાની વિગત <span style="font-weight:400;color:var(--muted);font-size:12px">(Head of family)</span></h2>
+      <div class="grid">
+        <div class="field"><label>અટક <span class="en">Surname</span></label><input name="surname"></div>
+        <div class="field"><label>નામ <span class="en">Name</span></label><input name="firstname"></div>
+        <div class="field full"><label>પિતા / પતિનું નામ <span class="en">Father's / Husband's name</span></label><input name="guardian"></div>
+        <div class="field"><label>ગોત્ર <span class="en">Gotra</span></label><input name="gotra"></div>
+        <div class="field"><label>મૂળ વતન <span class="en">Native place</span></label><input name="native"></div>
+        <div class="field full"><label>ઘરનું સરનામું <span class="en">Home address</span></label><textarea name="address"></textarea></div>
+        <div class="field"><label>વિસ્તાર <span class="en">Area</span></label><input name="area"></div>
+        <div class="field"><label>પીન કોડ નંબર <span class="en">Pin code</span></label><input name="pincode" inputmode="numeric"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section>
+      <h2 class="section-title">સંપર્ક નંબર <span style="font-weight:400;color:var(--muted);font-size:12px">(Contact)</span></h2>
+      <div class="grid">
+        <div class="field"><label>મોબાઈલ <span class="en">Mobile</span></label><input name="phone_mobile" inputmode="tel"></div>
+        <div class="field"><label>વોટ્સએપ નંબર <span class="en">WhatsApp number</span></label><input name="phone_whatsapp" inputmode="tel"></div>
+        <div class="field"><label>ઘર <span class="en">Home</span></label><input name="phone_home" inputmode="tel"></div>
+        <div class="field"><label>ઓફિસ <span class="en">Office</span></label><input name="phone_office" inputmode="tel"></div>
+      </div>
+    </section>
+
+    <!-- FAMILY MEMBERS -->
+    <section>
+      <h2 class="section-title">કુટુંબના સભ્યોની વિગત <span style="font-weight:400;color:var(--muted);font-size:12px">(Family members)</span></h2>
+      <div id="members"></div>
+      <button type="button" class="add-btn" id="addMember">+ સભ્ય ઉમેરો &nbsp;(Add member)</button>
+    </section>
+
+    <div class="note">
+      <b>તા.ક :</b> ઉપરોક્ત ફોર્મ વિગતવાર સુવાચ્ય અક્ષરે ભરીને સમયસર રૂબરૂ પહોંચતું કરવા નમ્ર વિનંતી છે.
+    </div>
+
+    <div class="contacts">
+      <b>ટ્રસ્ટી-પ્રમુખ :</b> શ્રી ગીરીશભાઈ ઉપાધ્યાય — મો. ૯૯૮૯૯ ૭૩૭૩૩<br>
+      <b>પ્રમુખ :</b> શ્રી રોહિતભાઈ દવે — મો. ૯૯૦૪૩ ૧૨૬૦૦ &nbsp;/&nbsp;
+      <b>મંત્રી :</b> શ્રી જગદીશભાઈ ત્રિવેદી — મો. ૯૧૦૬૭ ૦૦૬૫૪
+    </div>
+  </form>
+
+  <div class="actions">
+    <button type="button" class="btn-ghost" id="printBtn">🖨 PDF</button>
+    <button type="button" class="btn-primary" id="submitBtn">મોકલો ✓</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  /* ============================================================
+     SETUP: paste your deployed Google Apps Script /exec URL below.
+     ============================================================ */
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJKdlsMR-wNFb7uZmNKGaekQACwiNR8o2x4ZgdTdcjM6dsyTgcvh9lZDiMY0wiQ3o5/exec";
+
+  const RELATIONS = ["વડા પોતે","પત્ની","પતિ","પુત્ર","પુત્રી","પિતા","માતા","ભાઈ","બહેન","પુત્રવધૂ","જમાઈ","પૌત્ર","પૌત્રી","અન્ય"];
+  const MARITAL   = ["પરણિત","અપરણિત","વિધુર / વિધવા","અન્ય"];
+  const BLOOD     = ["A+","A-","B+","B-","O+","O-","AB+","AB-","ખબર નથી"];
+
+  const membersEl = document.getElementById('members');
+  let count = 0;
+
+  function opts(list){ return ['<option value=""></option>'].concat(list.map(v=>`<option>${v}</option>`)).join(''); }
+
+  function addMember(data={}){
+    count++;
+    const n = count;
+    const div = document.createElement('div');
+    div.className = 'member';
+    div.dataset.n = n;
+    div.innerHTML = `
+      <div class="member-head">
+        <span class="badge">${n}</span>
+        <span class="who">સભ્ય ${n}</span>
+        <button type="button" class="remove">દૂર કરો</button>
+      </div>
+      <div class="m-grid">
+        <div class="field full"><label>અટક સાથે પૂરું નામ <span class="en">Full name with surname</span></label><input data-k="name"></div>
+        <div class="field"><label>જન્મ તારીખ / વર્ષ <span class="en">DOB / year</span></label><input data-k="dob" placeholder="દા.ત. ૧૫/૦૮/૧૯૭૫ કે ૧૯૭૫"></div>
+        <div class="field"><label>વડા સાથે સંબંધ <span class="en">Relation to head</span></label><select data-k="relation">${opts(RELATIONS)}</select></div>
+        <div class="field"><label>અભ્યાસ <span class="en">Education</span></label><input data-k="education"></div>
+        <div class="field"><label>પરણિત / અપરણિત / અન્ય <span class="en">Marital status</span></label><select data-k="marital">${opts(MARITAL)}</select></div>
+        <div class="field"><label>પ્રવૃત્તિ <span class="en">Occupation</span></label><input data-k="occupation"></div>
+        <div class="field"><label>બ્લડ ગ્રૂપ <span class="en">Blood group</span></label><select data-k="blood">${opts(BLOOD)}</select></div>
+      </div>`;
+    membersEl.appendChild(div);
+    div.querySelectorAll('[data-k]').forEach(el=>{ if(data[el.dataset.k]!=null) el.value = data[el.dataset.k]; });
+    div.querySelector('.remove').addEventListener('click',()=>{ div.remove(); renumber(); });
+  }
+
+  function renumber(){
+    [...membersEl.children].forEach((m,i)=>{
+      m.querySelector('.badge').textContent = i+1;
+      m.querySelector('.who').textContent = 'સભ્ય '+(i+1);
+    });
+  }
+
+  document.getElementById('addMember').addEventListener('click',()=>addMember());
+
+  /* ---- collect / restore ---- */
+  function collect(){
+    const f = document.getElementById('form');
+    const head = {};
+    f.querySelectorAll('[name]').forEach(el=> head[el.name]=el.value);
+    const members = [...membersEl.children].map(m=>{
+      const o={}; m.querySelectorAll('[data-k]').forEach(el=>o[el.dataset.k]=el.value); return o;
+    });
+    return {head, members};
+  }
+  function restore(d){
+    if(!d) return;
+    const f = document.getElementById('form');
+    if(d.head) Object.entries(d.head).forEach(([k,v])=>{ const el=f.querySelector(`[name="${k}"]`); if(el) el.value=v; });
+    membersEl.innerHTML=''; count=0;
+    (d.members&&d.members.length?d.members:[{}]).forEach(addMember);
+  }
+
+  /* ---- toast ---- */
+  let tT;
+  function toast(msg){
+    const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+    clearTimeout(tT); tT=setTimeout(()=>t.classList.remove('show'),2200);
+  }
+
+  /* ---- destination URL (hardcoded wins; else ⚙ override / saved) ---- */
+  let urlOverride = '';
+  function isUrl(u){ u=(u||'').trim(); return /^https?:\/\//.test(u) && !u.includes('PASTE_'); }
+  function getUrl(){
+    if(isUrl(SCRIPT_URL)) return SCRIPT_URL.trim();          // hardcoded takes priority
+    let u = urlOverride || '';
+    if(!u){ try{ u = localStorage.getItem('vasti_url') || ''; }catch(e){} }
+    return isUrl(u) ? u.trim() : '';
+  }
+
+  /* ---- JSONP read helper (works from any host, no CORS issues) ---- */
+  function jsonp(params){
+    return new Promise((resolve,reject)=>{
+      const url = getUrl();
+      if(!url){ reject(new Error('no-url')); return; }
+      const cb = 'cb_' + Math.random().toString(36).slice(2);
+      const s = document.createElement('script');
+      const timer = setTimeout(()=>{ cleanup(); reject(new Error('timeout')); }, 15000);
+      function cleanup(){ clearTimeout(timer); try{ delete window[cb]; }catch(e){} if(s.parentNode) s.parentNode.removeChild(s); }
+      window[cb] = (data)=>{ cleanup(); resolve(data); };
+      const qs = Object.keys(params).map(k=>encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&');
+      s.src = url + '?' + qs + '&callback=' + cb;
+      s.onerror = ()=>{ cleanup(); reject(new Error('script-error')); };
+      document.head.appendChild(s);
+    });
+  }
+
+  /* ---- read/write helper ----
+     Neocities free accounts block cross-site fetch (CSP connect-src 'self'),
+     but ALLOW script-tag loads, so everything goes through JSONP. ---- */
+  async function apiRead(params){
+    return await jsonp(params);
+  }
+
+  document.getElementById('printBtn').addEventListener('click',()=>window.print());
+
+  /* ---- reset for next family ---- */
+  function resetForm(){
+    document.getElementById('form').querySelectorAll('[name]').forEach(el=> el.value='');
+    membersEl.innerHTML=''; count=0; addMember();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  /* ---- submit: duplicate check (GET) then write (POST) ---- */
+  async function submit(){
+    const data = collect();
+    if(!data.head.surname && !data.head.firstname){ toast('કૃપા કરી કુટુંબના વડાનું નામ ભરો'); return; }
+    if(!data.members.some(m=> (m.name||'').trim())){ toast('ઓછામાં ઓછા એક સભ્યનું નામ ભરો'); return; }
+    const url = getUrl();
+    if(!url){ toast('સેટઅપ અધૂરો — SCRIPT_URL સેટ નથી'); return; }
+    const btn = document.getElementById('submitBtn');
+    const label = btn.textContent; btn.disabled=true; btn.textContent='મોકલાઈ રહ્યું…';
+    const token = 't' + Date.now() + Math.random().toString(36).slice(2);
+    try{
+      const res = await apiRead({ action:'save', token: token, payload: JSON.stringify(data) });
+      if(res.result === 'duplicate'){
+        toast('⚠ આ અટક + નામ + પિતાનું નામ પહેલેથી નોંધાયેલ છે');
+      } else if(res.result === 'success'){
+        toast('✓ સફળતાપૂર્વક મોકલાયું'); resetForm();
+      } else {
+        toast('તકલીફ — ફરી પ્રયત્ન કરો');
+      }
+    }catch(e){
+      toast('નેટવર્ક તકલીફ — થોડીવારે ફરી પ્રયત્ન કરો');
+    }finally{ btn.disabled=false; btn.textContent=label; }
+  }
+  document.getElementById('submitBtn').addEventListener('click', submit);
+
+  /* ---- access gate ---- */
+  const gate = document.getElementById('gate');
+  const gateCode = document.getElementById('gateCode');
+  const gateErr = document.getElementById('gateErr');
+  function unlock(){ gate.style.display='none'; document.body.classList.remove('locked'); }
+  async function verify(code){
+    const url = getUrl();
+    if(!url){ gateErr.textContent='સેટઅપ અધૂરો — Apps Script URL નથી'; return false; }
+    const d = await apiRead({ action:'verify', code:code });
+    return !!d.ok;
+  }
+  async function tryUnlock(code){
+    code=(code||'').trim();
+    if(!code){ gateErr.textContent='કૃપા કરી કોડ દાખલ કરો'; return; }
+    gateErr.textContent='તપાસાઈ રહ્યું…';
+    try{
+      if(await verify(code)){ try{ localStorage.setItem('vasti_code', code); }catch(e){} unlock(); }
+      else{ gateErr.textContent='ખોટો કોડ — ફરી પ્રયત્ન કરો'; }
+    }catch(e){ gateErr.textContent='નેટવર્ક તકલીફ — ફરી પ્રયત્ન કરો'; }
+  }
+  document.getElementById('gateBtn').addEventListener('click',()=> tryUnlock(gateCode.value));
+  gateCode.addEventListener('keydown',e=>{ if(e.key==='Enter') tryUnlock(gateCode.value); });
+
+  /* ---- boot ---- */
+  addMember();
+  (async()=>{
+    let saved=''; try{ saved=localStorage.getItem('vasti_code')||''; }catch(e){}
+    if(saved){ try{ if(await verify(saved)) unlock(); }catch(e){} }
+  })();
+</script>
+</body>
+</html>
