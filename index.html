@@ -186,7 +186,7 @@
   .gate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
     background:radial-gradient(circle at 50% 0,rgba(22,48,107,.12),var(--paper));padding:20px}
   .gate-card{width:100%;max-width:400px;background:#fff;border:2px solid var(--ink);border-radius:14px;
-            max-height:92vh;overflow:auto;
+    max-height:92vh;overflow:auto;
     padding:26px 22px;text-align:center;box-shadow:0 14px 40px rgba(22,48,107,.18)}
   .gate-card h2{font-family:"Noto Serif Gujarati",serif;color:var(--ink);margin:0 0 6px;font-size:18px;line-height:1.3}
   .gate-card p{color:var(--muted);font-size:13px;margin:0 0 18px}
@@ -200,6 +200,25 @@
     border-radius:8px;font-size:13px;line-height:1.7;text-align:left}
   .gate-contacts a{color:var(--ink);font-weight:700;text-decoration:none}
   .gate-contacts .nm{color:var(--muted)}
+
+  /* ---- review modal ---- */
+  .modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
+    background:rgba(20,30,60,.45);padding:16px}
+  .modal-card{width:100%;max-width:460px;max-height:90vh;display:flex;flex-direction:column;
+    background:#fff;border:2px solid var(--ink);border-radius:14px;overflow:hidden;
+    box-shadow:0 18px 50px rgba(22,48,107,.28)}
+  .modal-head{font-family:"Noto Serif Gujarati",serif;font-weight:700;color:#fff;background:var(--ink);
+    padding:14px 18px;font-size:16px}
+  .modal-body{padding:14px 18px;overflow:auto}
+  .rv-sec{font-family:"Noto Serif Gujarati",serif;font-weight:600;color:var(--ink);font-size:14px;
+    margin:14px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+  .rv-sec:first-child{margin-top:0}
+  .rv-row{display:flex;justify-content:space-between;gap:14px;font-size:13.5px;padding:3px 0}
+  .rv-row span{color:var(--muted);flex:none}
+  .rv-row b{color:var(--text);text-align:right;word-break:break-word}
+  .modal-actions{display:flex;gap:10px;padding:12px 18px;border-top:1px solid var(--line)}
+  .modal-actions button{flex:1;padding:12px;border-radius:10px;border:1px solid var(--ink);
+    font-family:inherit;font-weight:700;font-size:15px;cursor:pointer}
 </style>
 </head>
 <body class="locked">
@@ -209,7 +228,7 @@
       <p class="gate-help">એક્સેસ કોડ મેળવવા અથવા ફોર્મ ભરવામાં તકલીફ પડતી હોય તો કૃપા કરીને નીચેના નંબરો પર સંપર્ક કરો.</p>
       <div class="gate-contacts">
         <span class="nm">Kashyap Pandya:</span> <a href="tel:+919558277737">9558277737</a><br>
-        <span class="nm">Nishant:</span> <a href="tel:+919724126920">9724126920</a><br>
+        <span class="nm">Nishant Bhatt:</span> <a href="tel:+919724126920">9724126920</a><br>
         <span class="nm">Dharmesh:</span> <a href="tel:+919033829780">9033829780</a><br>
         <span class="nm">Ruchir Dave:</span> <a href="tel:+919904774755">9904774755</a>
       </div>
@@ -250,6 +269,7 @@
     <section>
       <h2 class="section-title">સંપર્ક નંબર <span style="font-weight:400;color:var(--muted);font-size:12px">(Contact)</span></h2>
       <div class="grid">
+        <div class="field full"><label>ઈમેલ <span class="en">Email (to receive a copy)</span></label><input name="email" type="email" inputmode="email"></div>
         <div class="field"><label>મોબાઈલ <span class="en">Mobile</span></label><input name="phone_mobile" inputmode="tel"></div>
         <div class="field"><label>વોટ્સએપ નંબર <span class="en">WhatsApp number</span></label><input name="phone_whatsapp" inputmode="tel"></div>
         <div class="field"><label>ઘર <span class="en">Home</span></label><input name="phone_home" inputmode="tel"></div>
@@ -278,6 +298,17 @@
   <div class="actions">
     <button type="button" class="btn-ghost" id="printBtn">🖨 PDF</button>
     <button type="button" class="btn-primary" id="submitBtn">મોકલો ✓</button>
+  </div>
+
+  <div class="modal" id="reviewModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">ભરેલી માહિતી તપાસો &nbsp;<span style="font-weight:400;font-size:13px;opacity:.85">(Review)</span></div>
+      <div class="modal-body" id="reviewBody"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-ghost" id="reviewEdit">ફેરફાર કરો</button>
+        <button type="button" class="btn-primary" id="reviewConfirm">ખાતરી છે, મોકલો ✓</button>
+      </div>
+    </div>
   </div>
 
   <div class="toast" id="toast"></div>
@@ -384,11 +415,20 @@
     });
   }
 
-  /* ---- read/write helper ----
-     Neocities free accounts block cross-site fetch (CSP connect-src 'self'),
-     but ALLOW script-tag loads, so everything goes through JSONP. ---- */
+  /* ---- read/write helper: direct fetch, JSONP fallback ---- */
+																			 
+																		  
   async function apiRead(params){
-    return await jsonp(params);
+    const url = getUrl();
+    if(!url) throw new Error('no-url');
+    const qs = Object.keys(params).map(k=>encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&');
+    try{
+      const r = await fetch(url + '?' + qs, { redirect:'follow' });
+      if(r.ok) return await r.json();
+      throw new Error('bad-status');
+    }catch(e){
+      return await jsonp(params);   // fallback
+    }
   }
 
   document.getElementById('printBtn').addEventListener('click',()=>window.print());
@@ -401,20 +441,52 @@
   }
 
   /* ---- submit: duplicate check (GET) then write (POST) ---- */
-  async function submit(){
+  /* ---- review before submit ---- */
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  const reviewModal = document.getElementById('reviewModal');
+
+  function renderReview(d){
+    const rowEl = (l,v)=> (v && String(v).trim()) ? `<div class="rv-row"><span>${l}</span><b>${esc(v)}</b></div>` : '';
+    const h = d.head;
+    let html = '<div class="rv-sec">કુટુંબના વડા</div>';
+    html += rowEl('અટક', h.surname) + rowEl('નામ', h.firstname) + rowEl('પિતા/પતિ', h.guardian)
+         + rowEl('ગોત્ર', h.gotra) + rowEl('મૂળ વતન', h.native) + rowEl('સરનામું', h.address)
+         + rowEl('વિસ્તાર', h.area) + rowEl('પીન કોડ', h.pincode) + rowEl('ઈમેલ', h.email)
+         + rowEl('મોબાઈલ', h.phone_mobile) + rowEl('વોટ્સએપ', h.phone_whatsapp)
+         + rowEl('ઘર', h.phone_home) + rowEl('ઓફિસ', h.phone_office);
+    d.members.forEach((m,i)=>{
+      html += `<div class="rv-sec">સભ્ય ${i+1}</div>`;
+      html += rowEl('નામ', m.name) + rowEl('જન્મ તારીખ/વર્ષ', m.dob) + rowEl('સંબંધ', m.relation)
+           + rowEl('અભ્યાસ', m.education) + rowEl('સ્થિતિ', m.marital) + rowEl('પ્રવૃત્તિ', m.occupation)
+           + rowEl('બ્લડ ગ્રૂપ', m.blood);
+    });
+    document.getElementById('reviewBody').innerHTML = html;
+  }
+
+  function openReview(){
     const data = collect();
     if(!data.head.surname && !data.head.firstname){ toast('કૃપા કરી કુટુંબના વડાનું નામ ભરો'); return; }
     if(!data.members.some(m=> (m.name||'').trim())){ toast('ઓછામાં ઓછા એક સભ્યનું નામ ભરો'); return; }
+    if(!getUrl()){ toast('સેટઅપ અધૂરો — SCRIPT_URL સેટ નથી'); return; }
+    renderReview(data);
+    document.getElementById('reviewBody').scrollTop = 0;
+    reviewModal.hidden = false;
+  }
+
+  async function confirmSubmit(){
+    const data = collect();
     const url = getUrl();
-    if(!url){ toast('સેટઅપ અધૂરો — SCRIPT_URL સેટ નથી'); return; }
-    const btn = document.getElementById('submitBtn');
+																									
+    const btn = document.getElementById('reviewConfirm');
     const label = btn.textContent; btn.disabled=true; btn.textContent='મોકલાઈ રહ્યું…';
     const token = 't' + Date.now() + Math.random().toString(36).slice(2);
     try{
       const res = await apiRead({ action:'save', token: token, payload: JSON.stringify(data) });
       if(res.result === 'duplicate'){
         toast('⚠ આ અટક + નામ + પિતાનું નામ પહેલેથી નોંધાયેલ છે');
+        reviewModal.hidden = true;
       } else if(res.result === 'success'){
+        reviewModal.hidden = true;
         toast('✓ સફળતાપૂર્વક મોકલાયું'); resetForm();
       } else {
         toast('તકલીફ — ફરી પ્રયત્ન કરો');
@@ -423,7 +495,11 @@
       toast('નેટવર્ક તકલીફ — થોડીવારે ફરી પ્રયત્ન કરો');
     }finally{ btn.disabled=false; btn.textContent=label; }
   }
-  document.getElementById('submitBtn').addEventListener('click', submit);
+																		 
+
+  document.getElementById('submitBtn').addEventListener('click', openReview);
+  document.getElementById('reviewEdit').addEventListener('click', ()=> reviewModal.hidden = true);
+  document.getElementById('reviewConfirm').addEventListener('click', confirmSubmit);
 
   /* ---- access gate ---- */
   const gate = document.getElementById('gate');
