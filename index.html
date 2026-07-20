@@ -204,6 +204,7 @@
   /* ---- review modal ---- */
   .modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
     background:rgba(20,30,60,.45);padding:16px}
+  .modal[hidden]{display:none}
   .modal-card{width:100%;max-width:460px;max-height:90vh;display:flex;flex-direction:column;
     background:#fff;border:2px solid var(--ink);border-radius:14px;overflow:hidden;
     box-shadow:0 18px 50px rgba(22,48,107,.28)}
@@ -416,8 +417,8 @@
   }
 
   /* ---- read/write helper: direct fetch, JSONP fallback ---- */
-																			 
-																		  
+					
+					
   async function apiRead(params){
     const url = getUrl();
     if(!url) throw new Error('no-url');
@@ -476,7 +477,7 @@
   async function confirmSubmit(){
     const data = collect();
     const url = getUrl();
-																									
+						 
     const btn = document.getElementById('reviewConfirm');
     const label = btn.textContent; btn.disabled=true; btn.textContent='મોકલાઈ રહ્યું…';
     const token = 't' + Date.now() + Math.random().toString(36).slice(2);
@@ -495,7 +496,7 @@
       toast('નેટવર્ક તકલીફ — થોડીવારે ફરી પ્રયત્ન કરો');
     }finally{ btn.disabled=false; btn.textContent=label; }
   }
-																		 
+				   
 
   document.getElementById('submitBtn').addEventListener('click', openReview);
   document.getElementById('reviewEdit').addEventListener('click', ()=> reviewModal.hidden = true);
