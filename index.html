@@ -263,6 +263,7 @@
         <div class="field full"><label>ઘરનું સરનામું <span class="en">Home address</span></label><textarea name="address"></textarea></div>
         <div class="field"><label>વિસ્તાર <span class="en">Area</span></label><input name="area"></div>
         <div class="field"><label>પીન કોડ નંબર <span class="en">Pin code</span></label><input name="pincode" inputmode="numeric"></div>
+        <div class="field"><label>બ્લડ ગ્રૂપ <span class="en">Blood group</span></label><select name="head_blood"><option value=""></option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option><option>ખબર નથી</option></select></div>
       </div>
     </section>
 
@@ -417,8 +418,8 @@
   }
 
   /* ---- read/write helper: direct fetch, JSONP fallback ---- */
-					
-					
+	 
+	 
   async function apiRead(params){
     const url = getUrl();
     if(!url) throw new Error('no-url');
@@ -452,7 +453,7 @@
     let html = '<div class="rv-sec">કુટુંબના વડા</div>';
     html += rowEl('અટક', h.surname) + rowEl('નામ', h.firstname) + rowEl('પિતા/પતિ', h.guardian)
          + rowEl('ગોત્ર', h.gotra) + rowEl('મૂળ વતન', h.native) + rowEl('સરનામું', h.address)
-         + rowEl('વિસ્તાર', h.area) + rowEl('પીન કોડ', h.pincode) + rowEl('ઈમેલ', h.email)
+         + rowEl('વિસ્તાર', h.area) + rowEl('પીન કોડ', h.pincode) + rowEl('બ્લડ ગ્રૂપ', h.head_blood) + rowEl('ઈમેલ', h.email)
          + rowEl('મોબાઈલ', h.phone_mobile) + rowEl('વોટ્સએપ', h.phone_whatsapp)
          + rowEl('ઘર', h.phone_home) + rowEl('ઓફિસ', h.phone_office);
     d.members.forEach((m,i)=>{
@@ -477,7 +478,7 @@
   async function confirmSubmit(){
     const data = collect();
     const url = getUrl();
-						 
+	   
     const btn = document.getElementById('reviewConfirm');
     const label = btn.textContent; btn.disabled=true; btn.textContent='મોકલાઈ રહ્યું…';
     const token = 't' + Date.now() + Math.random().toString(36).slice(2);
@@ -496,7 +497,7 @@
       toast('નેટવર્ક તકલીફ — થોડીવારે ફરી પ્રયત્ન કરો');
     }finally{ btn.disabled=false; btn.textContent=label; }
   }
-				   
+	   
 
   document.getElementById('submitBtn').addEventListener('click', openReview);
   document.getElementById('reviewEdit').addEventListener('click', ()=> reviewModal.hidden = true);
